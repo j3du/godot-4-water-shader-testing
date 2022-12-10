@@ -1,0 +1,95 @@
+[gd_scene load_steps=11 format=3 uid="uid://c4jqgaujow6m8"]
+
+[ext_resource type="PackedScene" uid="uid://c0fbukht8qj7u" path="res://rock/rocks.tscn" id="1_g7boq"]
+[ext_resource type="Shader" path="res://water.gdshader" id="2_j00u2"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7inj1"]
+size = Vector2(5, 5)
+subdivide_width = 100
+subdivide_depth = 100
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vtks1"]
+seed = 197
+fractal_octaves = 3
+fractal_lacunarity = 0.75
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5uw1g"]
+seamless = true
+noise = SubResource("FastNoiseLite_vtks1")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_31rx0"]
+seed = 197
+frequency = 0.031
+fractal_octaves = 3
+fractal_lacunarity = 0.89
+fractal_gain = 0.586
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fp0a8"]
+seamless = true
+noise = SubResource("FastNoiseLite_31rx0")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_alcyv"]
+seed = 115
+fractal_octaves = 3
+fractal_lacunarity = 1.05
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_f7gw8"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_alcyv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ymdy"]
+render_priority = 0
+shader = ExtResource("2_j00u2")
+shader_parameter/deep_color = Color(0.215686, 0.247059, 0.47451, 0.882353)
+shader_parameter/depth_distance = 1.0
+shader_parameter/displacement_noise = SubResource("NoiseTexture2D_5uw1g")
+shader_parameter/displacement_strength = 0.033
+shader_parameter/foam_amount = 0.0
+shader_parameter/foam_color = Color(0.835294, 1, 0.862745, 1)
+shader_parameter/foam_cutoff = 0.717
+shader_parameter/foam_noise = SubResource("NoiseTexture2D_fp0a8")
+shader_parameter/movement_direction = Vector2(1, 0)
+shader_parameter/refraction_noise = SubResource("NoiseTexture2D_f7gw8")
+shader_parameter/refraction_speed = 0.05
+shader_parameter/refraction_strength = 0.05
+shader_parameter/shallow_color = Color(0.407843, 1, 0.827451, 0.219608)
+
+[node name="Water" type="Node3D"]
+
+[node name="Rocks" type="Node3D" parent="."]
+
+[node name="rocks" parent="Rocks" instance=ExtResource("1_g7boq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.09219)
+
+[node name="rocks2" parent="Rocks" instance=ExtResource("1_g7boq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.10559)
+
+[node name="rocks3" parent="Rocks" instance=ExtResource("1_g7boq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.923049, 1.09219)
+
+[node name="rocks4" parent="Rocks" instance=ExtResource("1_g7boq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.923049, -1.10559)
+
+[node name="rocks5" parent="Rocks" instance=ExtResource("1_g7boq")]
+transform = Transform3D(-0.0305036, -0.999535, 0, 0.999535, -0.0305036, 0, 0, 0, 1, 0.612734, -1.46275, 1.09219)
+
+[node name="rocks6" parent="Rocks" instance=ExtResource("1_g7boq")]
+transform = Transform3D(-0.0305036, -0.999535, 0, 0.999535, -0.0305036, 0, 0, 0, 1, 0.612734, -1.46275, -1.10559)
+
+[node name="rocks7" parent="Rocks" instance=ExtResource("1_g7boq")]
+transform = Transform3D(-0.0305036, -0.999535, 0, 0.999535, -0.0305036, 0, 0, 0, 1, 1.53535, -1.43459, 1.09219)
+
+[node name="rocks8" parent="Rocks" instance=ExtResource("1_g7boq")]
+transform = Transform3D(-0.0305036, -0.999535, 0, 0.999535, -0.0305036, 0, 0, 0, 1, 1.53535, -1.43459, -1.10559)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.760415, 0.0315578, 0)
+mesh = SubResource("PlaneMesh_7inj1")
+surface_material_override/0 = SubResource("ShaderMaterial_7ymdy")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.828256, -0.246502, 0.503218, 0, 0.898043, 0.439908, -0.56035, -0.364356, 0.743809, 3.04259, 1.1637, 2.92341)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.115213, -0.480943, 0.869149, -0.0632001, 0.876752, 0.476772, -0.991328, -3.69299e-09, -0.131409, 3.02335, 1.34233, 0)
